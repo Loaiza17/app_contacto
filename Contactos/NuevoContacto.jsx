@@ -1,11 +1,21 @@
-export default function NewContact({ navigation, route }) {
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert, Switch
+} from 'react-native';
+
+export default function Nuevo({ navigation, route }) {
   const [Nombre, setNombre] = useState('');
   const [Numero, setNumero] = useState('');
   const [Estado, setEstado] = useState(false);
 
 
  
-  const { NuevoContacto } = route.params || {};
+  const { NuevoContactos } = route.params || {};
 
   const isValid = Nombre.trim().length >= 1;
 
@@ -23,10 +33,10 @@ export default function NewContact({ navigation, route }) {
     };
 
 
-    if (typeof NuevoContacto === 'function') {
-      NuevoContacto(NuevoContacto);
+    if (typeof NuevoContactos === 'function') {
+      NuevoContactos(NuevoContacto);
     } else {
-      console.warn('NuevoContacto no está definido');
+      console.warn('NuevoContactos no está definido');
     }
 
     navigation.goBack();
@@ -38,7 +48,7 @@ export default function NewContact({ navigation, route }) {
 
       <TextInput
         style={styles.input}
-        placeholder="Nombre del contacto (mín. 1 caracteres)"
+        placeholder="Nombre del contacto "
         value={Nombre}
         onChangeText={setNombre}
       />

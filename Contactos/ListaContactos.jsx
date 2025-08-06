@@ -6,7 +6,7 @@ import {
   ScrollView,
   StyleSheet
 } from 'react-native';
-import NuevoContactos from './NuevoContacto';
+// import NuevoContactos from './NuevoContacto';
 
 export default function ListaContactos({ navigation }) {
   const [Contactos, setContactos] = useState([
@@ -40,17 +40,17 @@ export default function ListaContactos({ navigation }) {
       {/* Fila de botones de filtro */}
       <View style={styles.filterRow}>
         <Button
-          title="Todas"
+          title="Todos"
           onPress={() => setFilterMode('all')}
           color={filterMode === 'all' ? '#007AFF' : undefined}
         />
         <Button
-          title="Pendientes"
+          title="No Favorito"
           onPress={() => setFilterMode('pending')}
           color={filterMode === 'pending' ? '#007AFF' : undefined}
         />
         <Button
-          title="Completadas"
+          title="Favorito"
           onPress={() => setFilterMode('Estado')}
           color={filterMode === 'Estado' ? '#007AFF' : undefined}
         />
@@ -61,7 +61,7 @@ export default function ListaContactos({ navigation }) {
         {displayedContacto.map(Contactos => (
           <View key={Contactos.id} style={styles.ContactoRow}>
             <Text style={styles.icon}>
-              {Contactos.Estado ? '✅' : '⌛️'}
+              {Contactos.Estado ? '⭐ favorito' : '🗃️ no favorito'}
             </Text>
             <Text
               style={[
@@ -91,7 +91,7 @@ export default function ListaContactos({ navigation }) {
       
       <Button
         title="Crear nuevo contacto"
-        onPress={() => navigation.navigate('NuevoContacto', { NuevoContacto })}
+        onPress={() => navigation.navigate('NuevoContacto', { NuevoContactos })}
       />
     </View>
   );
