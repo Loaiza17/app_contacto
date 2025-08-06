@@ -10,11 +10,11 @@ import NuevoContactos from './NuevoContacto';
 
 export default function ListaContactos({ navigation }) {
   const [Contactos, setContactos] = useState([
-    { id: 1, title: 'carlos', completed: false },
-    { id: 2, title: 'Enviar email', completed: true },
-    { id: 3, title: 'Leer documentación', completed: false },
+    { id: 1, Nombre: 'carlos', Estado: false, Numero:3156548975},
+    { id: 2, Nombre: 'David', Estado: true, Numero:3659856214},
+    { id: 3, Nombre: 'Juan', Estado: false, Numero:3112569862},
   ]);
-  const [filterMode, setFilterMode] = useState('all'); // 'all' | 'pending' | 'completed'
+  const [filterMode, setFilterMode] = useState('all'); 
 
   // Función para añadir una nueva tarea al estado
   const NuevoContactos = (Contactos) => {
@@ -25,10 +25,10 @@ export default function ListaContactos({ navigation }) {
   let displayedContacto
   switch (filterMode) {
     case 'pending':
-      displayedContacto = Contactos.filter(t => !t.completed);
+      displayedContacto = Contactos.filter(t => !t.Estado);
       break;
-    case 'completed':
-      displayedContacto = Contactos.filter(t => t.completed);
+    case 'Estado':
+      displayedContacto = Contactos.filter(t => t.Estado);
       break;
     default:
       displayedContacto = Contactos;
@@ -51,8 +51,8 @@ export default function ListaContactos({ navigation }) {
         />
         <Button
           title="Completadas"
-          onPress={() => setFilterMode('completed')}
-          color={filterMode === 'completed' ? '#007AFF' : undefined}
+          onPress={() => setFilterMode('Estado')}
+          color={filterMode === 'Estado' ? '#007AFF' : undefined}
         />
       </View>
 
@@ -61,15 +61,28 @@ export default function ListaContactos({ navigation }) {
         {displayedContacto.map(Contactos => (
           <View key={Contactos.id} style={styles.ContactoRow}>
             <Text style={styles.icon}>
-              {Contactos.completed ? '✅' : '⌛️'}
+              {Contactos.Estado ? '✅' : '⌛️'}
             </Text>
             <Text
               style={[
                 styles.ContactoText,
-                Contactos.completed ? styles.completedText : styles.pendingText,
+                Contactos.Estado ? styles.EstadoText : styles.pendingText,
               ]}
             >
-              {Contactos.title}
+              {Contactos.Nombre}
+            </Text>
+
+            <Text>
+              {"  "}
+            </Text>
+
+            <Text
+              style={[
+                styles.ContactoText,
+                Contactos.Estado ? styles.EstadoText : styles.pendingText,
+              ]}
+            >
+              {Contactos.Numero}
             </Text>
           </View>
         ))}
@@ -78,7 +91,7 @@ export default function ListaContactos({ navigation }) {
       
       <Button
         title="Crear nuevo contacto"
-        onPress={() => navigation.navigate('NuevoContactos', { NuevoContactos })}
+        onPress={() => navigation.navigate('NuevoContacto', { NuevoContacto })}
       />
     </View>
   );
@@ -91,6 +104,6 @@ const styles = StyleSheet.create({
   ContactoRow:      { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
   icon:         { fontSize: 18, marginRight: 8 },
   ContactoText:     { fontSize: 16 },
-  completedText:{ textDecorationLine: 'line-through', color: '#888' },
+  EstadoText:{ color: '#888' },
   pendingText:  { color: '#000' },
 });

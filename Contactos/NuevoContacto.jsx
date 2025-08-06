@@ -1,35 +1,30 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Alert
-} from 'react-native';
+export default function NewContact({ navigation, route }) {
+  const [Nombre, setNombre] = useState('');
+  const [Numero, setNumero] = useState('');
+  const [Estado, setEstado] = useState(false);
 
-export default function NuevoContacto({ navigation, route }) {
-  const [title, setTitle] = useState('');
 
-  // Recuperamos la función addTask pasada desde TaskListScreen
-  const { NuevoContactos } = route.params || {};
+ 
+  const { NuevoContacto } = route.params || {};
 
-  const isValid = title.trim().length >= 3;
+  const isValid = Nombre.trim().length >= 1;
 
   const handleAdd = () => {
     if (!isValid) {
-      Alert.alert('Error', 'El título debe tener al menos 3 caracteres.');
+      Alert.alert('Error', 'El Nombre debe tener al menos 1 caracter.');
       return;
     }
-    const newTask = {
+
+    const NuevoContacto = {
       id: Date.now(),
-      title: title.trim(),
-      completed: false,
+      Nombre: Nombre.trim(),
+      Numero: Numero.trim(),
+      Estado: Estado,
     };
 
-    // Llamamos al callback sólo si existe
-    if (typeof NuevoContactos=== 'function') {
-      NuevoContactos(newTask);
+
+    if (typeof NuevoContacto === 'function') {
+      NuevoContacto(NuevoContacto);
     } else {
       console.warn('NuevoContacto no está definido');
     }
@@ -43,27 +38,41 @@ export default function NuevoContacto({ navigation, route }) {
 
       <TextInput
         style={styles.input}
-        placeholder="nombre de contacto (mín. 1 caracteres)"
-        value={title}
-        onChangeText={setTitle}
+        placeholder="Nombre del contacto (mín. 1 caracteres)"
+        value={Nombre}
+        onChangeText={setNombre}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Numero de contacto"
+        keyboardType='numeric'
+        value={Numero}
+        onChangeText={setNumero}
       />
 
-      { !isValid && title.length > 0 && (
+
+      { !isValid && Nombre.length > 0 && (
         <Text style={styles.errorText}>
-          El nombre debe tener al menos 1 caracteres.
+          El título debe tener al menos 1 caracter.
         </Text>
       )}
-
+      
+      <View style={styles.switchRow}>
+        <Text style={styles.statusText}>
+          {Estado ? '⭐ favorito' : '🗃️ no favorito'}
+        </Text>
+        <Switch value={Estado} onValueChange={setEstado} />
+      </View>
       <View style={styles.buttons}>
         <Button
           title="Agregar contacto"
           onPress={handleAdd}
           disabled={!isValid}
         />
-        { title.length > 0 && (
+        { Nombre.length > 0 && (
           <Button
             title="Limpiar"
-            onPress={() => setTitle('')}
+            onPress={() => setNombre('')}
           />
         )}
       </View>
